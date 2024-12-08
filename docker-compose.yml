@@ -1,0 +1,31 @@
+﻿services:
+  # контейнер приложения
+  app:
+    image: countrydictionaryapiapp
+    container_name: countrydictionaryapiapp_app_container
+    build:
+      context: .
+      dockerfile: CountryDictionaryApiApp/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - appdb
+    networks:
+      - internal
+
+
+  appdb:
+    image: postgres:latest
+    container_name: countrydictionaryapiapp_db_container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    networks:
+      - internal
+
+
+networks:
+  internal:
+    driver: bridge
